@@ -1,0 +1,16 @@
+pandas
+numpy
+scikit-learn
+matplotlib
+seaborn
+mlflow
+fastapi
+uvicorn
+pytest
+httpx
+pydantic
+python-dotenv
+flask
+requests
+pyyaml
+prometheus-fastapi-instrumentator

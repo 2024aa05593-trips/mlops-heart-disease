@@ -1,0 +1,23 @@
+artifact_path: file:///c:/Users/jmajjigi/OneDrive - Microsoft/Jambanna/Personal/MTech/SEM
+  III/MLOPS/Assignment/notebooks/mlruns/0/models/m-1f6ad56af1004bc9b1d3ab6ef8084898/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.12.3
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.8.0
+mlflow_version: 3.8.0
+model_id: m-1f6ad56af1004bc9b1d3ab6ef8084898
+model_size_bytes: 3141
+model_uuid: m-1f6ad56af1004bc9b1d3ab6ef8084898
+prompts: null
+run_id: b28ab9711f1f49ac82a6d4733427dc19
+utc_time_created: '2025-12-24 05:02:54.221579'
