@@ -36,6 +36,9 @@ jobs:
         
     - name: Train Model
       run: python src/train.py
+
+    - name: Set PYTHONPATH
+      run: echo "PYTHONPATH=$PWD" >> $GITHUB_ENV
         
     - name: Run Tests
       run: pytest tests/
