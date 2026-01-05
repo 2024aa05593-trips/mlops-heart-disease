@@ -3,6 +3,7 @@ from pydantic import BaseModel
 import pandas as pd
 import pickle
 import os
+import traceback
 from prometheus_fastapi_instrumentator import Instrumentator
 
 app = FastAPI(title="Heart Disease Prediction API")
@@ -40,21 +41,26 @@ def predict(data: PatientData):
     if model is None:
         raise HTTPException(status_code=500, detail="Model not loaded. Please train the model first.")
     
-    # Convert input data to DataFrame
-    input_df = pd.DataFrame([data.dict()])
-    
-    # Make prediction
-    prediction = model.predict(input_df)[0]
-    probability = model.predict_proba(input_df)[0].tolist()
-    
-    return {
-        "prediction": int(prediction),
-        "confidence": max(probability),
-        "probabilities": {
-            "no_disease": probability[0],
-            "disease": probability[1]
+    try:
+        # Convert input data to DataFrame
+        input_df = pd.DataFrame([data.dict()])
+        
+        # Make prediction
+        prediction = model.predict(input_df)[0]
+        probability = model.predict_proba(input_df)[0].tolist()
+        
+        return {
+            "prediction": int(prediction),
+            "confidence": max(probability),
+            "probabilities": {
+                "no_disease": probability[0],
+                "disease": probability[1]
+            }
         }
-    }
+    except Exception as e:
+        print(f"Error during prediction: {str(e)}")
+        print(traceback.format_exc())
+        raise HTTPException(status_code=500, detail=f"Prediction error: {str(e)}")
 
 # Instrument the app
 Instrumentator().instrument(app).expose(app)
