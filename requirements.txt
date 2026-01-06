@@ -6,14 +6,10 @@ seaborn
 mlflow
 fastapi
 uvicorn
-pytest
+pytestgit
 httpx
 pydantic
 python-dotenv
 flask
 requests
 pyyaml
-<<<<<<< HEAD
-=======
-prometheus-fastapi-instrumentator
->>>>>>> upstream/master
