@@ -6,7 +6,13 @@ import os
 import traceback
 from prometheus_fastapi_instrumentator import Instrumentator
 
+# ------------------------------
+# FastAPI App + Monitoring
+# ------------------------------
 app = FastAPI(title="Heart Disease Prediction API")
+
+# Attach Prometheus Monitoring IMMEDIATELY
+Instrumentator().instrument(app).expose(app)
 
 
 # ------------------------------
@@ -74,16 +80,9 @@ def predict(data: PatientData):
 
 
 # ------------------------------
-# Monitoring Metrics
-# ------------------------------
-@app.on_event("startup")
-async def startup():
-    Instrumentator().instrument(app).expose(app)
-
-
-# ------------------------------
 # Run Local
 # ------------------------------
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
+    
