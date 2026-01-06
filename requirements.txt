@@ -13,3 +13,7 @@ python-dotenv
 flask
 requests
 pyyaml
+<<<<<<< HEAD
+=======
+prometheus-fastapi-instrumentator
+>>>>>>> upstream/master
