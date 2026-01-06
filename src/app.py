@@ -3,15 +3,15 @@ from pydantic import BaseModel
 import pandas as pd
 import pickle
 import os
-<<<<<<< HEAD
-=======
 import traceback
 from prometheus_fastapi_instrumentator import Instrumentator
->>>>>>> upstream/master
 
 app = FastAPI(title="Heart Disease Prediction API")
 
-# Define the input schema
+
+# ------------------------------
+# Input Schema
+# ------------------------------
 class PatientData(BaseModel):
     age: float
     sex: float
@@ -27,7 +27,10 @@ class PatientData(BaseModel):
     ca: float
     thal: float
 
-# Load the model
+
+# ------------------------------
+# Load Model
+# ------------------------------
 MODEL_PATH = "models/model.pkl"
 if os.path.exists(MODEL_PATH):
     with open(MODEL_PATH, "rb") as f:
@@ -35,40 +38,26 @@ if os.path.exists(MODEL_PATH):
 else:
     model = None
 
+
+# ------------------------------
+# Routes
+# ------------------------------
 @app.get("/")
 def read_root():
     return {"message": "Heart Disease Prediction API is running"}
+
 
 @app.post("/predict")
 def predict(data: PatientData):
     if model is None:
         raise HTTPException(status_code=500, detail="Model not loaded. Please train the model first.")
-    
-<<<<<<< HEAD
-    # Convert input data to DataFrame
-    input_df = pd.DataFrame([data.dict()])
-    
-    # Make prediction
-    prediction = model.predict(input_df)[0]
-    probability = model.predict_proba(input_df)[0].tolist()
-    
-    return {
-        "prediction": int(prediction),
-        "confidence": max(probability),
-        "probabilities": {
-            "no_disease": probability[0],
-            "disease": probability[1]
-        }
-    }
-=======
+
     try:
-        # Convert input data to DataFrame
         input_df = pd.DataFrame([data.dict()])
-        
-        # Make prediction
+
         prediction = model.predict(input_df)[0]
         probability = model.predict_proba(input_df)[0].tolist()
-        
+
         return {
             "prediction": int(prediction),
             "confidence": max(probability),
@@ -77,15 +66,24 @@ def predict(data: PatientData):
                 "disease": probability[1]
             }
         }
+
     except Exception as e:
         print(f"Error during prediction: {str(e)}")
         print(traceback.format_exc())
         raise HTTPException(status_code=500, detail=f"Prediction error: {str(e)}")
 
-# Instrument the app
-Instrumentator().instrument(app).expose(app)
->>>>>>> upstream/master
 
+# ------------------------------
+# Monitoring Metrics
+# ------------------------------
+@app.on_event("startup")
+async def startup():
+    Instrumentator().instrument(app).expose(app)
+
+
+# ------------------------------
+# Run Local
+# ------------------------------
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
