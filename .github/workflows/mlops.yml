@@ -36,14 +36,6 @@ jobs:
         
     - name: Train Model
       run: python src/train.py
-<<<<<<< HEAD
-
-    - name: Set PYTHONPATH
-      run: echo "PYTHONPATH=$PWD" >> $GITHUB_ENV
-        
-    - name: Run Tests
-      run: pytest tests/
-=======
         
     - name: Run Tests
       run: pytest tests/
@@ -56,4 +48,4 @@ jobs:
           models/model.pkl
           models/metrics_plot.png
           mlruns/
->>>>>>> upstream/master
+

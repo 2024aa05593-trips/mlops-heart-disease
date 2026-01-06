@@ -6,10 +6,12 @@ seaborn
 mlflow
 fastapi
 uvicorn
-pytestgit
+pytest
 httpx
 pydantic
 python-dotenv
 flask
 requests
 pyyaml
+prometheus-fastapi-instrumentator
+
